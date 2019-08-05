@@ -41,7 +41,7 @@
 		</#if>
 
 		<#if has_navigation && is_setup_complete>
-			<#assign primaryNavigationPreferencesMap = {"siteNavigationMenuType": "1", "portletSetupPortletDecoratorId": "barebone"} />
+			<#assign primaryNavigationPreferencesMap = {"displayStyle": "ddmTemplate_CUSTOM-NAVIGATION", "displayStyleGroupId": "${group_id}", "siteNavigationMenuType": "1", "portletSetupPortletDecoratorId": "barebone"} />
 
 			<@liferay.navigation_menu
 				default_preferences=freeMarkerPortletPreferences.getPreferences(primaryNavigationPreferencesMap)
@@ -67,7 +67,7 @@
 	</section>
 
 	<footer id="footer" role="contentinfo">
-		<#assign secondaryNavigationPreferencesMap = {"siteNavigationMenuType": "2", "portletSetupPortletDecoratorId": "barebone"} />
+		<#assign secondaryNavigationPreferencesMap = {"displayStyle": "ddmTemplate_CUSTOM-NAVIGATION", "displayStyleGroupId": "${group_id}", "siteNavigationMenuType": "2", "portletSetupPortletDecoratorId": "barebone"} />
 
 		<@liferay.navigation_menu
 			default_preferences=freeMarkerPortletPreferences.getPreferences(secondaryNavigationPreferencesMap)

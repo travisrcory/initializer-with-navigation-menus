@@ -18,57 +18,43 @@ import com.liferay.site.navigation.model.SiteNavigationMenu;
 import com.liferay.site.navigation.service.SiteNavigationMenuService;
 import com.liferay.site.navigation.service.SiteNavigationMenuItemService;
 import com.liferay.site.navigation.constants.SiteNavigationConstants;
+import com.liferay.dynamic.data.mapping.model.DDMTemplate;
 import com.liferay.dynamic.data.mapping.model.DDMTemplateConstants;
 import com.liferay.dynamic.data.mapping.service.DDMTemplateLocalService;
-import com.liferay.petra.string.StringBundler;
 import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.model.Layout;
 import com.liferay.portal.kernel.model.LayoutConstants;
-import com.liferay.portal.kernel.model.LayoutTypePortlet;
 import com.liferay.portal.kernel.model.Theme;
 import com.liferay.portal.kernel.model.User;
-import com.liferay.portal.kernel.portlet.PortletPreferencesFactoryUtil;
 import com.liferay.portal.kernel.security.auth.PrincipalThreadLocal;
 import com.liferay.portal.kernel.service.GroupLocalService;
 import com.liferay.portal.kernel.service.LayoutLocalService;
 import com.liferay.portal.kernel.service.LayoutService;
 import com.liferay.portal.kernel.service.LayoutSetLocalService;
-import com.liferay.portal.kernel.service.PortletPreferencesLocalService;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.ThemeLocalService;
 import com.liferay.portal.kernel.service.UserLocalService;
 import com.liferay.portal.kernel.template.TemplateConstants;
-import com.liferay.portal.kernel.util.CamelCaseUtil;
+import com.liferay.portal.kernel.theme.NavItem;
 import com.liferay.portal.kernel.util.FileUtil;
-import com.liferay.portal.kernel.util.ListUtil;
 import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.kernel.util.Portal;
-import com.liferay.portal.kernel.util.PortletKeys;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.UnicodeProperties;
-import com.liferay.portal.kernel.workflow.WorkflowConstants;
-import com.liferay.portlet.PortletPreferencesImpl;
 import com.liferay.site.exception.InitializationException;
 import com.liferay.site.initializer.SiteInitializer;
 
-import java.io.InputStream;
-
 import java.net.URL;
 
-import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-
-import javax.portlet.PortletPreferences;
 
 import javax.servlet.ServletContext;
 
@@ -164,6 +150,8 @@ public class SampleSiteInitializer implements SiteInitializer {
 
 			String script = StringUtil.read(url.openStream());
 
+			System.out.println(script);
+
 			String fileName = FileUtil.stripExtension(
 				FileUtil.getShortFileName(url.getPath()));
 
@@ -171,14 +159,18 @@ public class SampleSiteInitializer implements SiteInitializer {
 
 			nameMap.put(LocaleUtil.getSiteDefault(), fileName);
 
-			_ddmTemplateLocalService.addTemplate(
+			DDMTemplate ddmTemplate = _ddmTemplateLocalService.addTemplate(
 				serviceContext.getUserId(), serviceContext.getScopeGroupId(),
-				_portal.getClassNameId(SiteNavigationMenu.class.getName()), 0,
+				_portal.getClassNameId(NavItem.class.getName()), 0,
 				_portal.getClassNameId(_PORTLET_DISPLAY_TEMPLATE_CLASS_NAME),
 				nameMap, new HashMap<>(),
 				DDMTemplateConstants.TEMPLATE_TYPE_DISPLAY,
 				DDMTemplateConstants.TEMPLATE_MODE_EDIT,
 				TemplateConstants.LANG_TYPE_FTL, script, serviceContext);
+
+			ddmTemplate.setTemplateKey(fileName.toUpperCase().replaceAll(" ", "-"));
+
+			_ddmTemplateLocalService.updateDDMTemplate(ddmTemplate);
 		}
 	}
 
@@ -266,14 +258,9 @@ public class SampleSiteInitializer implements SiteInitializer {
 			StringPool.BLANK);
 	}
 
-	private static final String _COLUMN_1 = "column-1";
-
 	private static final String _PATH =
 		"com/liferay/sample/site/initializer/internal/dependencies";
 
-	private static final String _PORTLET_DECORATOR_BAREBONE = "barebone";
-
-	private static final String _PORTLET_DECORATOR_TRENDING = "trending";
 
 	private static final String _PORTLET_DISPLAY_TEMPLATE_CLASS_NAME =
 		"com.liferay.portlet.display.template.PortletDisplayTemplate";

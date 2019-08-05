@@ -29,7 +29,7 @@
 
 					<#if showChildren>
 						<#assign nav_item_attr_has_popup = "aria-haspopup='true'" />
-						<#assign nav_item_caret = '<span class="lfr-nav-child-toggle"><svg class="lexicon-icon"><use href="${theme_display.getPathThemeImages()}/clay/icons.svg#caret-bottom" /></svg></span>' />
+						<#assign nav_item_caret = '<span class="lfr-nav-child-toggle"><svg class="lexicon-icon"><use href="${themeDisplay.getPathThemeImages()}/clay/icons.svg#caret-bottom" /></svg></span>' />
 						<#assign
 							nav_item_css_class = "${nav_item_css_class} dropdown"
 							nav_item_link_css_class = "${nav_item_link_css_class} dropdown-toggle"
