@@ -104,8 +104,8 @@ public class SampleSiteInitializer implements SiteInitializer {
 			_updateLookAndFeel(serviceContext);
 			_addApplicationDisplayTemplates(serviceContext);
 
-			SiteNavigationMenu headerMenu = _addSiteNavigationMenu("Header", SiteNavigationConstants.TYPE_PRIMARY, serviceContext);
-			SiteNavigationMenu footerMenu = _addSiteNavigationMenu("Footer", SiteNavigationConstants.TYPE_SECONDARY, serviceContext);
+			SiteNavigationMenu headerMenu = _addSiteNavigationMenu("Header", SiteNavigationConstants.TYPE_DEFAULT, serviceContext);
+			SiteNavigationMenu footerMenu = _addSiteNavigationMenu("Footer", SiteNavigationConstants.TYPE_DEFAULT, serviceContext);
 
 			_addLayoutWithNameAndAddToMenu("Home", headerMenu.getSiteNavigationMenuId(), serviceContext);
 			_addLayoutWithNameAndAddToMenu("About Us", headerMenu.getSiteNavigationMenuId(), serviceContext);
@@ -149,8 +149,6 @@ public class SampleSiteInitializer implements SiteInitializer {
 			URL url = enumeration.nextElement();
 
 			String script = StringUtil.read(url.openStream());
-
-			System.out.println(script);
 
 			String fileName = FileUtil.stripExtension(
 				FileUtil.getShortFileName(url.getPath()));
@@ -207,8 +205,6 @@ public class SampleSiteInitializer implements SiteInitializer {
 		typeSettingsProperties.put("layoutUuid", layout.getUuid());
 		typeSettingsProperties.put("privateLayout", String.valueOf(layout.isPrivateLayout()));
 		typeSettingsProperties.put("title", layout.getNameCurrentValue());
-
-		System.out.println(typeSettingsProperties.toString());
 
 		_siteNavigationMenuItemService.addSiteNavigationMenuItem(
 			serviceContext.getScopeGroupId(), menuId, parentId,

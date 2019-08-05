@@ -40,8 +40,11 @@
 			<a data-redirect="${is_login_redirect_required?string}" href="${sign_in_url}" id="sign-in" rel="nofollow">${sign_in_text}</a>
 		</#if>
 
-		<#if has_navigation && is_setup_complete>
-			<#assign primaryNavigationPreferencesMap = {"displayStyle": "ddmTemplate_CUSTOM-NAVIGATION", "displayStyleGroupId": "${group_id}", "siteNavigationMenuType": "1", "portletSetupPortletDecoratorId": "barebone"} />
+		<#if has_navigation && is_setup_complete && site_navigation_menus??>
+			<#assign header = "Header" />
+
+			<h2>${site_navigation_menus[header]}</h2>
+			<#assign primaryNavigationPreferencesMap = {"displayStyle": "ddmTemplate_CUSTOM-NAVIGATION", "displayStyleGroupId": "${group_id}", "siteNavigationMenuId": "${site_navigation_menus[header]}", "portletSetupPortletDecoratorId": "barebone"} />
 
 			<@liferay.navigation_menu
 				default_preferences=freeMarkerPortletPreferences.getPreferences(primaryNavigationPreferencesMap)
@@ -67,12 +70,18 @@
 	</section>
 
 	<footer id="footer" role="contentinfo">
-		<#assign secondaryNavigationPreferencesMap = {"displayStyle": "ddmTemplate_CUSTOM-NAVIGATION", "displayStyleGroupId": "${group_id}", "siteNavigationMenuType": "2", "portletSetupPortletDecoratorId": "barebone"} />
+		<#if site_navigation_menus??>
+			<#assign footer = "Footer" />
 
-		<@liferay.navigation_menu
-			default_preferences=freeMarkerPortletPreferences.getPreferences(secondaryNavigationPreferencesMap)
-			instance_id="secondary_navigation_menu"
-		/>
+			<h2>${site_navigation_menus[footer]}</h2>
+
+			<#assign secondaryNavigationPreferencesMap = {"displayStyle": "ddmTemplate_CUSTOM-NAVIGATION", "displayStyleGroupId": "${group_id}", "siteNavigationMenuId": "${site_navigation_menus[footer]}", "portletSetupPortletDecoratorId": "barebone"} />
+
+			<@liferay.navigation_menu
+				default_preferences=freeMarkerPortletPreferences.getPreferences(secondaryNavigationPreferencesMap)
+				instance_id="secondary_navigation_menu"
+			/>
+		</#if>
 
 		<p class="powered-by">
 			<@liferay.language key="powered-by" /> <a href="http://www.liferay.com" rel="external">Liferay</a>
