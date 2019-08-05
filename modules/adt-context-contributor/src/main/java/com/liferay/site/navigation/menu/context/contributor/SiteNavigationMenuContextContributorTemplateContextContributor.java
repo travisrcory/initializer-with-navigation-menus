@@ -1,4 +1,4 @@
-package com.liferay.adt.context.contributor.context.contributor;
+package com.liferay.site.navigation.menu.context.contributor;
 
 import com.liferay.portal.kernel.template.TemplateContextContributor;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
@@ -23,7 +23,7 @@ import org.osgi.service.component.annotations.Reference;
 	property = {"type=" + TemplateContextContributor.TYPE_THEME},
 	service = TemplateContextContributor.class
 )
-public class AdtContextContributorTemplateContextContributor
+public class SiteNavigationMenuContextContributorTemplateContextContributor
 	implements TemplateContextContributor {
 
 	@Override
